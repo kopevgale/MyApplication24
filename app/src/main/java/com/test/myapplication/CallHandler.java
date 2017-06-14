@@ -19,5 +19,6 @@ public class CallHandler extends PhonecallReceiver {
         Log.i(TAG, "outgoing call started");
         Toast toast = Toast.makeText(ctx, "Outgoing call started..", Toast.LENGTH_LONG);
         toast.show();
+        // Здесь можешь запускать плеер. Эта ф-ция вызывается когда начинается звонок.
     }
 }
