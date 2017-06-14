@@ -26,7 +26,7 @@ public class CallHandler extends PhonecallReceiver {
         toast.show();
         // Здесь можешь запускать плеер. Эта ф-ция вызывается когда начинается звонок.
 
-        public class CallHandler extends AppCompatActivity {
+        class MainActivity extends AppCompatActivity {
 
             MediaPlayer mPlayer;
             Button startButton, pauseButton, stopButton;
