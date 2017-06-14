@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     boolean textVisible = true;
 
-    // комментарий
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
