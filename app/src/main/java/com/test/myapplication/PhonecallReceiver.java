@@ -1,4 +1,4 @@
-package com.test.myapplication.PhonecallReceiver;
+package com.test.myapplication;
 
 /**
  * Created by ivan on 14.06.2017.

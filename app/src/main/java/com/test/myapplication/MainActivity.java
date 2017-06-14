@@ -11,6 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
 
     final String TAG = "PavelActivity";
@@ -21,6 +23,17 @@ public class MainActivity extends AppCompatActivity {
 
     boolean textVisible = true;
 
+
+    com.test.myapplication.PhonecallReceiver mRec = new PhonecallReceiver() {
+        @Override
+        protected void onOutgoingCallStarted(Context ctx, String number, Date start) {
+            super.onOutgoingCallStarted(ctx, number, start);
+            Log.i(TAG, "outgoing call started");
+            Context context = getApplicationContext();
+            Toast toast = Toast.makeText(ctx, "Looo message", Toast.LENGTH_LONG);
+            toast.show();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
