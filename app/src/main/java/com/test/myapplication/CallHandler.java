@@ -1,7 +1,9 @@
 package com.test.myapplication;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import java.util.Date;
@@ -12,14 +14,7 @@ import java.util.Date;
 public class CallHandler extends PhonecallReceiver {
     final String TAG = "CallHandler";
 
-
-    // Ссылка на главное приложение.
-    public static MainActivity mApp;
-
-    // Вызови эту ф-цию в MainActivity::onCreate()
-    public static void setActivity(MainActivity a) {
-        mApp = a;
-    }
+    MediaPlayer mPlayer;
 
     // Когда подняли трубку, запускается этот обработчик.
     @Override
@@ -29,11 +24,52 @@ public class CallHandler extends PhonecallReceiver {
         Toast toast = Toast.makeText(ctx, "Outgoing call started..", Toast.LENGTH_LONG);
         toast.show();
         // Здесь можешь запускать плеер. Эта ф-ция вызывается когда начинается звонок.
-
-        if (mApp != null) {
-            mApp.play();
-        }
-
+        initPlayer(ctx);
     }
+
+    void initPlayer(Context ctx) {
+        mPlayer = MediaPlayer.create(ctx, R.raw.audio1);
+        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                stopPlay();
+            }
+        });
+        mPlayer.start();
+    }
+
+    private void stopPlay() {
+        mPlayer.stop();
+        //pauseButton.setEnabled(false);
+        //stopButton.setEnabled(false);
+        try {
+            mPlayer.prepare();
+            mPlayer.seekTo(0);
+            //startButton.setEnabled(true);
+        } catch (Throwable t) {
+            /// Toast.makeText(ctx, t.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void play(View view) {
+
+        mPlayer.start();
+        //startButton.setEnabled(false);
+        //pauseButton.setEnabled(true);
+        //stopButton.setEnabled(true);
+    }
+
+    public void pause(View view) {
+
+        mPlayer.pause();
+        //startButton.setEnabled(true);
+        //pauseButton.setEnabled(false);
+        //stopButton.setEnabled(true);
+    }
+
+    public void stop(View view) {
+        stopPlay();
+    }
+
 }
 

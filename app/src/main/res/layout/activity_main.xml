@@ -7,6 +7,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
+    <!--
     <Button
         android:id="@+id/start"
         android:layout_width="match_parent"
@@ -23,6 +24,7 @@
         android:text="Pause"
         tools:ignore="HardcodedText" />
 
+
     <Button
         android:id="@+id/stop"
         android:layout_width="209dp"
@@ -31,12 +33,13 @@
         android:onClick="stop"
         android:text="Stop"
         tools:ignore="HardcodedText,InefficientWeight" />
+        -->
 
     <Button
         android:id="@+id/btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="BtnCall"
         tools:ignore="HardcodedText,MissingConstraints,UnknownId"
         tools:layout_editor_absoluteX="8dp" />
 

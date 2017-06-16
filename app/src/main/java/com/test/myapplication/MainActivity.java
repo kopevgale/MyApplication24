@@ -1,83 +1,58 @@
 package com.test.myapplication;
 
-import android.media.MediaPlayer;
+import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
-import static com.test.myapplication.CallHandler.mApp;
-
-
 class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-    MediaPlayer mPlayer;
-    Button startButton, pauseButton, stopButton;
+        setContentView(R.layout.activity_main);
 
-    MainActivity() {
-        super.onCreate(null);
+//        not sleep
 
-        initPlayer();
-    }
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-    void initPlayer() {
-        mPlayer = MediaPlayer.create(this, R.raw.audio1);
-        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+        Button btnCall = (Button) findViewById(R.id.btn);
+
+        // Запускаем звонок
+        btnCall.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCompletion(MediaPlayer mp) {
-                stopPlay();
+            public void onClick(View v) {
+                Intent intent;
+                switch (v.getId()) {
+
+                    case R.id.btn:
+                        intent = new Intent(Intent.ACTION_CALL);
+                        intent.setData(Uri.parse("tel:+79671125"));
+
+                        Context ctx = getApplicationContext();
+                        if (ActivityCompat.checkSelfPermission(ctx, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                            Toast.makeText(ctx, "Don't have permissions to make a call.", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        startActivity(intent);
+                        break;
+                }
             }
         });
-        startButton = (Button) findViewById(R.id.start);
-
-        Log.i(String.valueOf(startButton), "btnstart new text: " + startButton.getText());
-
-        pauseButton = (Button) findViewById(R.id.pause);
-        stopButton = (Button) findViewById(R.id.stop);
-
-        pauseButton.setEnabled(false);
-        stopButton.setEnabled(false);
-    }
-
-    private void stopPlay() {
-        mPlayer.stop();
-        pauseButton.setEnabled(false);
-        stopButton.setEnabled(false);
-        try {
-            mPlayer.prepare();
-            mPlayer.seekTo(0);
-            startButton.setEnabled(true);
-        } catch (Throwable t) {
-            Toast.makeText(mApp, t.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void play() {
-
-        mPlayer.start();
-        startButton.setEnabled(false);
-        pauseButton.setEnabled(true);
-        stopButton.setEnabled(true);
-    }
-
-    public void pause() {
-
-        mPlayer.pause();
-        startButton.setEnabled(true);
-        pauseButton.setEnabled(false);
-        stopButton.setEnabled(true);
-    }
-
-    public void stop() {
-        stopPlay();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mPlayer.isPlaying()) {
-            stopPlay();
-        }
     }
 }
 
